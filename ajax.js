@@ -27,6 +27,7 @@ exports.postReq = function(url,data,auth,callback) {
                 "Authorization": auth
             }
         }, function (error, response, body) {
+			
                 callback(error,response,body);
 
         });
@@ -64,11 +65,11 @@ exports.forwardMessage = function(body){
 exports.sendSMS = function(msg,phone){
 
     var url = "http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=hispindia&password=&sendername=HSSPIN&mobileno="+phone+"&message="+msg;
-
+ 
     exports.getReqWithoutAuth(url,callback);
 
 function callback(error,resposne,body){
-console.log(error)
+
 }
 
 }

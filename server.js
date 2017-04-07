@@ -11,7 +11,7 @@ var app = express();
  */ app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'null');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
@@ -50,15 +50,241 @@ global.__logger = new (winston.Logger)({
 */
 var ajax = require("./ajax");
 
-// Open API for receieving POst req
-app.get('/sendSMS', function(req, res){
+var constant=require("./CONSTANTS");
+  
+var username = "gitika";
+var pass = "Giti1234";
+var auth = "Basic " + new Buffer(username + ":" + pass).toString("base64");
+var DHIS2_BASE = "http://localhost:8090/dhis";
 
-console.log("asd")
-   ajax.sendSMS("Hello","918968999927");
 
-    res.writeHead(200, {'Content-Type': 'text/html'});
+function gotPhoneNumberCallback(eventUID,error,response,body){
+    if (error){return}
+    
+    var users = JSON.parse(body);
+    users=users.users;
+    var phones = "";
+
+    for (var i=0;i<users.length;i++){
+        if (users[i].phoneNumber){
+            phones=phones+users[i].phoneNumber+",";
+        }
+    }
+
+console.log(phones);
+    ajax.getReq(DHIS2_BASE + "/api/events/"+eventUID+".json",auth,callback.bind(null,phones));
+
+
+	function callback(phones,error,response,body){
+		
+	    if (error){return}
+
+		var data=JSON.parse(body);
+	
+			var obj=[];
+			
+				for(var k=0;k<data.dataValues.length;k++)
+				{
+			var id=data.dataValues[k].dataElement;
+			
+			
+		
+			if(id==constant.sample_sent_to_Apex_Lab)             
+			{
+				
+				var val=data.dataValues[k].value;
+				if(val=="true")
+				{
+					ajax.sendSMS("Sample Sent To Lab ",phones);
+										console.log("send sms");
+					
+				}
+			}
+			
+			
+			else if(id==constant.CSF_sample_2_JE_IgM)             
+			{
+				
+				var val=data.dataValues[k].value;
+				if(val=="Positive")
+				{
+					obj.push(val);
+				
+					
+				}
+			}
+			
+			
+			
+			else if(id==constant.Lab_results_CSF_JE_IgM)            
+			{
+				
+				var val=data.dataValues[k].value;
+				if(val=="Positive")
+				{
+					obj.push(val);
+					
+				}
+			}
+			
+			else if(id==constant.Lab_results_Malaria_rapid_diagnostic_test)            
+			{
+				
+				var val=data.dataValues[k].value;
+				if(val=="V +")
+				{
+					obj.push(val);
+					
+				}
+			}
+			
+		
+			else if(id==constant.Lab_results_Serum_sample_2_JE_gM)             
+			{
+				
+				var val=data.dataValues[k].value;
+				if(val=="Positive")
+				{
+					obj.push(val);
+					
+				}
+			}
+			
+			
+			else if(id==constant.Lab_results_Serum_JE_IgM)             
+			{
+				
+				var val=data.dataValues[k].value;
+				if(val=="Positive")
+				{
+					obj.push(val);
+					
+				}
+			}
+			
+			
+			else if(id==constant.Lab_results_Malaria_smear_results)              
+			{
+				
+				var val=data.dataValues[k].value;
+				if(val=="PV")
+				{
+					obj.push(val);
+					
+				}
+			}
+			
+		
+			
+			
+		
+			else if(id==constant.Follow_up_visit_Lab_results_Serum_JE_IgM)              
+			{
+				
+				var val=data.dataValues[k].value;
+				if(val=="Positive")
+				{
+						obj.push(val);
+				}
+			}
+			
+		
+			else if(id==constant.Follow_up_visit_Lab_results_Serum_Scrub_typhus_IgG)             
+			{
+				
+				var val=data.dataValues[k].value;
+				if(val=="Positive")
+				{
+					obj.push(val);
+				}
+			}
+			
+			
+			else if(id==constant.Lab_results_Serum_IgM_DEN)              
+			{
+				
+				var val=data.dataValues[k].value;
+				if(val=="Positive")
+				{
+						obj.push(val);
+				}
+			}
+			
+			
+			 else if(id==constant.Scrub_typhus_IgM)             
+			{
+				
+				var val=data.dataValues[k].value;
+				if(val=="Positive")
+				{
+						obj.push(val);
+				}
+			}
+			
+			
+			 else if(id==constant.Zika)             // Event 2 Lab results - Zika PCR
+			{
+				
+				var val=data.dataValues[k].value;
+				if(val=="Positive")
+				{
+					
+						obj.push(val);
+				}
+			}
+			
+			}
+			
+				//console.log(obj);
+				if(obj.length>0)
+				{
+					ajax.sendSMS("positive case found ",phones);
+					console.log("send sms");
+				}
+			
+			
+				
+	
+		
+		// K24hMmaJvrV   Lab results - CSF sample 2 - JE IgM"
+		//N6Yfs0jO6FY    Lab results - CSF - JE IgM
+		//v5WLB0ggt1y   Lab results - Malaria rapid diagnostic test"
+		//KVJSXRivsHL   Lab results - Serum sample 2 - JE IgM"
+		// DG9PTsQmliZ  Lab results - Serum - JE IgM
+		// kspIAuMSEXO Lab results - Malaria smear results"
+		// v5WLB0ggt1y "Lab results - Malaria rapid diagnostic test"
+		// LpT8hxDYDHq  "Follow up visit - Lab results - Serum - JE IgM"
+		// SyVZXV49iO9  "Follow up visit - Lab results - Serum - Scrub typhus IgG
+		// DHpb0qQ61ZE Lab results - Serum - IgM DEN
+		// LhrbwYEYv20 Lab results - Serum - Scrub typhus IgM
+		// CvndfGdof4G  Lab results - Zika PCR
+	}
+
+
+}
+
+
+// Open API for receieving POst re
+app.post('/sendSMS', function(req, res){
+ 
+
+   //ajax.sendSMS("positive case ","");
+ 
+	var eventUID = req.body.event;
+    var eventOrgUnit = req.body.orgUnit;
+    var thiz = this;
+	
+    ajax.getReq(DHIS2_BASE + "/api/organisationUnits/"+eventOrgUnit+"?fields=users[phoneNumber]",auth,gotPhoneNumberCallback.bind(null,eventUID))
+	
+  res.writeHead(200, {'Content-Type': 'text/html'});
     res.end('ok');
+	
+	
+	
 });
+				
+				
+
 
 var server = app.listen(8000, function () {
 
@@ -66,6 +292,7 @@ var server = app.listen(8000, function () {
     var port = server.address().port
 
     console.log("Server listening at http://%s:%s", host, port)
+
 
 })
 
