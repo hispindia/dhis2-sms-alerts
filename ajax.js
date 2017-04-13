@@ -20,6 +20,7 @@ exports.postReq = function(url,data,auth,callback) {
 }
 
     exports.getReq = function(url,auth,callback) {
+	
         request({
             url: url,
             method: "GET",
@@ -32,6 +33,22 @@ exports.postReq = function(url,data,auth,callback) {
 
         });
     }
+	
+	 exports.getReq1 = function(url,auth,callbackname,trackentity) {
+		var storeit=trackentity;
+        request({
+            url: url,
+            method: "GET",
+            headers: {
+                "Authorization": auth
+            }
+        }, function (error, response, body,storeit) {
+			//console.log("in getreq aa"+storeit);
+                callbackname(error,response,body,trackentity);
+
+        });
+    }
+	
         exports.getReqWithoutAuth = function(url,callback){
             request({
                 url: url,
@@ -64,12 +81,12 @@ exports.forwardMessage = function(body){
 
 exports.sendSMS = function(msg,phone){
 
-    var url = "http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=hispindia&password=&sendername=HSSPIN&mobileno="+phone+"&message="+msg;
+    var url = "http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=hispindia&password=747599411&sendername=HSSPIN&mobileno="+phone+"&message="+msg;
  
     exports.getReqWithoutAuth(url,callback);
 
 function callback(error,resposne,body){
-
+console.log(error);
 }
 
 }
