@@ -57,6 +57,9 @@ exports.Follow_up_visit_Lab_results_Serum_Scrub_typhus_IgG= "SyVZXV49iO9";
 exports.Lab_results_Serum_IgM_DEN= "DHpb0qQ61ZE";
 exports.Scrub_typhus_IgM ="LhrbwYEYv20";
 exports.Zika ="CvndfGdof4G";
+exports.CSF_sample_received ="PLGdIMsKL8n";
+ exports.Serum_sample_received="S7lh1zoePbe";
+  exports.Serum_sample_sent_to_Apex_Lab ="jDiCrciKu7Z";
 //---------------------------------------------------------------------------------
 
 exports.COC_PreSac_TwoToFive_M = "UtQUjXcW3dB";
