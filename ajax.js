@@ -69,7 +69,7 @@ exports.sendSMS = function(msg,phone){
     exports.getReqWithoutAuth(url,callback);
 
 function callback(error,resposne,body){
-
+console.log(error + " - "+body);
 }
 
 }
