@@ -129,7 +129,7 @@ console.log(phones);
 				var val=data.dataValues[k].value;
 				if(val=="true")
 				{
-					//ajax.sendSMS(" CSF Sample Sent To ApexLab"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0],phones);
+					ajax.sendSMS(" CSF Sample Sent To ApexLab"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0],phones);
 					
 					console.log("Sample Sent To ApexLab"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0]);
 					
@@ -274,7 +274,7 @@ console.log(phones);
 				
 				if(!val=="")
 				{
-					//ajax.sendSMS("CSF Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0],phones);
+					ajax.sendSMS("CSF Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0],phones);
 					console.log("CSF Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0]);
 						
 				}
@@ -286,7 +286,7 @@ console.log(phones);
 				
 				if(!val=="")
 				{
-					//ajax.sendSMS("Serum Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0] ,phones);
+					ajax.sendSMS("Serum Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0] ,phones);
 					console.log("Serum Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0]);
 						
 				}
@@ -297,7 +297,7 @@ console.log(phones);
 				//console.log(obj);
 				if(obj.length>0)
 				{
-					//ajax.sendSMS("Positive Case Found"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0],phones);
+					ajax.sendSMS("Positive Case Found"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0],phones);
 					console.log("send sms");
 				}
 			
