@@ -80,13 +80,47 @@ console.log(phones);
 	    if (error){return}
 
 		var data=JSON.parse(body);
-	
+		
+	    var orgid=data.orgUnit;
+		
+	    var trackentity=data.trackedEntityInstance;
+		
 			var obj=[];
+			
+			//------------------------------------get name and value --------------------------------------
+			
+			ajax.getReq1(DHIS2_BASE + "/api/trackedEntityInstances.json?ou="+orgid,auth,callback,trackentity);
+	function callback(error,response,body,trackentity){
+		var data1=JSON.parse(body);
+		//console.log(error);
+		var trackid=trackentity;
+		
+		console.log("in server file"+trackid);
+		 var objectname=[];
+		
+		    for(var i=0;i<data1.trackedEntityInstances.length;i++)
+			{
+				var trackent=data1.trackedEntityInstances[i].trackedEntityInstance;
+				//console.log(trackent);
+				for(var j=0;j<data1.trackedEntityInstances[i].attributes.length;j++)
+				{
+					
+				var attrbt=data1.trackedEntityInstances[i].attributes[j].attribute;
+				if((attrbt=="B8Ohks1Zf91"||attrbt=="eZAMzTucu0x")&& trackent==trackid)
+				{
+					objectname.push(data1.trackedEntityInstances[i].attributes[j].value);
+					
+			
+				}
+				}
+		
+	               }
+	                   console.log(objectname);
+	//--------------------------------------------------------------------------------------------------------------
 			
 				for(var k=0;k<data.dataValues.length;k++)
 				{
 			var id=data.dataValues[k].dataElement;
-			
 			
 		
 			if(id==constant.sample_sent_to_Apex_Lab)             
@@ -95,8 +129,9 @@ console.log(phones);
 				var val=data.dataValues[k].value;
 				if(val=="true")
 				{
-					ajax.sendSMS("Sample Sent To Lab ",phones);
-										console.log("send sms");
+					//ajax.sendSMS(" CSF Sample Sent To ApexLab"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0],phones);
+					
+					console.log("Sample Sent To ApexLab"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0]);
 					
 				}
 			}
@@ -232,13 +267,37 @@ console.log(phones);
 						obj.push(val);
 				}
 			}
+			 else if(id=="PLGdIMsKL8n")            
+			{
+				
+				var val=data.dataValues[k].value;
+				
+				if(!val=="")
+				{
+					//ajax.sendSMS("CSF Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0],phones);
+					console.log("CSF Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0]);
+						
+				}
+			}
+			 else if(id=="S7lh1zoePbe")            
+			{
+				
+				var val=data.dataValues[k].value;
+				
+				if(!val=="")
+				{
+					//ajax.sendSMS("Serum Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0] ,phones);
+					console.log("Serum Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0]);
+						
+				}
+			}
 			
 			}
 			
 				//console.log(obj);
 				if(obj.length>0)
 				{
-					ajax.sendSMS("positive case found ",phones);
+					//ajax.sendSMS("Positive Case Found"+"  "+"PatientName"+"-"+objectname[1]+"  "+"value"+"-"+objectname[0],phones);
 					console.log("send sms");
 				}
 			
@@ -258,8 +317,8 @@ console.log(phones);
 		// DHpb0qQ61ZE Lab results - Serum - IgM DEN
 		// LhrbwYEYv20 Lab results - Serum - Scrub typhus IgM
 		// CvndfGdof4G  Lab results - Zika PCR
-	}
-
+	      }
+	  }
 
 }
 
@@ -286,7 +345,7 @@ app.post('/sendSMS', function(req, res){
 				
 
 
-var server = app.listen(8002, function () {
+var server = app.listen(8001, function () {
 
     var host = server.address().address
     var port = server.address().port
