@@ -100,15 +100,20 @@ function gotPhoneNumberCallback(eventUID,error,response,body){
 	    var tei=JSON.parse(body);
 	    //console.log(error);
 	    
-	    var objectname=[];
+	    var teiName,teiAESID;
 	    
 	    for(var j=0;j<tei.attributes.length;j++)
 	    {
 		
 		var attrbt=tei.attributes[j].attribute;
-		if((attrbt=="B8Ohks1Zf91"||attrbt=="eZAMzTucu0x"))
+		if(attrbt=="B8Ohks1Zf91")
 		{
-		    objectname.push(tei.attributes[j].value);
+		    teiName = tei.attributes[j].value;
+		}
+
+                if(attrbt=="eZAMzTucu0x")
+		{
+		    teiAESID = tei.attributes[j].value;
 		}
             }
 	    //--------------------------------------------------------------------------------------------------------------
@@ -124,9 +129,9 @@ function gotPhoneNumberCallback(eventUID,error,response,body){
 		    var val=data.dataValues[k].value;
 		    if(val=="true")
 		    {
-			ajax.sendSMS(" CSF Sample Sent To ApexLab"+"  "+"PatientName"+"-"+objectname[1]+"  "+"ID"+"-"+objectname[0],phones);
+			ajax.sendSMS(" CSF Sample Sent To ApexLab"+"  "+"PatientName"+"-"+teiName+"  "+"ID"+"-"+teiAESID,phones);
 			
-			__logger.info("Sample Sent To ApexLab"+"  "+"PatientName"+"-"+objectname[1]+"  "+"ID"+"-"+objectname[0]);
+			__logger.info("Sample Sent To ApexLab"+"  "+"PatientName"+"-"+teiName+"  "+"ID"+"-"+teiAESID);
 			
 		    }
 		}
@@ -256,8 +261,8 @@ function gotPhoneNumberCallback(eventUID,error,response,body){
 		    var val=data.dataValues[k].value;
 		    if(val=="true")
 		    {
-			ajax.sendSMS("Serum sample sent to Apex Lab"+"  "+"PatientName"+"-"+objectname[1]+"  "+"ID"+"-"+objectname[0],phones);
-			__logger.info("Serum sample sent to Apex Lab"+"  "+"PatientName"+"-"+objectname[1]+"  "+"ID"+"-"+objectname[0]);
+			ajax.sendSMS("Serum sample sent to Apex Lab"+"  "+"PatientName"+"-"+teiName+"  "+"ID"+"-"+teiAESID,phones);
+			__logger.info("Serum sample sent to Apex Lab"+"  "+"PatientName"+"-"+teiName+"  "+"ID"+"-"+teiAESID);
 		    }
 		}
 		
@@ -270,8 +275,8 @@ function gotPhoneNumberCallback(eventUID,error,response,body){
 		    
 		    if(!val=="")
 		    {
-			ajax.sendSMS("CSF Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"ID"+"-"+objectname[0],phones);
-			__logger.info("CSF Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"ID"+"-"+objectname[0]);
+			ajax.sendSMS("CSF Sample recieved"+"  "+"PatientName"+"-"+teiName+"  "+"ID"+"-"+teiAESID,phones);
+			__logger.info("CSF Sample recieved"+"  "+"PatientName"+"-"+teiName+"  "+"ID"+"-"+teiAESID);
 			
 		    }
 		}
@@ -282,8 +287,8 @@ function gotPhoneNumberCallback(eventUID,error,response,body){
 		    
 		    if(!val=="")
 		    {
-			ajax.sendSMS("Serum Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"ID"+"-"+objectname[0] ,phones);
-			__logger.info("Serum Sample recieved"+"  "+"PatientName"+"-"+objectname[1]+"  "+"ID"+"-"+objectname[0]);
+			ajax.sendSMS("Serum Sample recieved"+"  "+"PatientName"+"-"+teiName+"  "+"ID"+"-"+teiAESID ,phones);
+			__logger.info("Serum Sample recieved"+"  "+"PatientName"+"-"+teiName+"  "+"ID"+"-"+teiAESID);
 			
 		    }
 		}
@@ -293,7 +298,7 @@ function gotPhoneNumberCallback(eventUID,error,response,body){
 	    //__logger.info(obj);
 	    if(obj.length>0)
 	    {
-		ajax.sendSMS("Positive Case Found"+"  "+"PatientName"+"-"+objectname[1]+"  "+"ID"+"-"+objectname[0],phones);
+		ajax.sendSMS("Positive Case Found"+"  "+"PatientName"+"-"+teiName+"  "+"ID"+"-"+teiAESID,phones);
 		__logger.info("send sms");
 	    }
 	    
