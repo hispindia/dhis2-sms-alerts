@@ -87,42 +87,30 @@ function gotPhoneNumberCallback(eventUID,error,response,body){
             return
         }
 
-	var data=JSON.parse(body);
-	
-	var orgid=data.orgUnit;
-	
-	var trackentity=data.trackedEntityInstance;
+	var data=JSON.parse(body);	
+	var teiUID=data.trackedEntityInstance;
 	
 	var obj=[];
 	
 	//------------------------------------get name and value --------------------------------------
 	
-	ajax.getReq1(DHIS2_BASE + "/api/trackedEntityInstances.json?ou="+orgid,auth,callbackname,trackentity);
-	function callbackname(error,response,body,trackentity){
-	    var data1=JSON.parse(body);
+	ajax.getReq(DHIS2_BASE + "/api/trackedEntityInstances/"+teiUID+".json?",auth,gotName);
+	function gotName(error,response,body){
+            
+	    var tei=JSON.parse(body);
 	    //console.log(error);
-	    var trackid=trackentity;
 	    
 	    var objectname=[];
 	    
-	    for(var i=0;i<data1.trackedEntityInstances.length;i++)
+	    for(var j=0;j<tei.attributes.length;j++)
 	    {
-		var trackent=data1.trackedEntityInstances[i].trackedEntityInstance;
-		//console.log(trackent);
-		for(var j=0;j<data1.trackedEntityInstances[i].attributes.length;j++)
-		{
-		    
-		    var attrbt=data1.trackedEntityInstances[i].attributes[j].attribute;
-		    if((attrbt=="B8Ohks1Zf91"||attrbt=="eZAMzTucu0x")&& trackent==trackid)
-		    {
-			objectname.push(data1.trackedEntityInstances[i].attributes[j].value);
-			
-			
-		    }
-		}
 		
-	    }
-	    console.log(objectname);
+		var attrbt=tei.attributes[j].attribute;
+		if((attrbt=="B8Ohks1Zf91"||attrbt=="eZAMzTucu0x"))
+		{
+		    objectname.push(tei.attributes[j].value);
+		}
+            }
 	    //--------------------------------------------------------------------------------------------------------------
 	    
 	    for(var k=0;k<data.dataValues.length;k++)
