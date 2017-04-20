@@ -67,7 +67,7 @@ exports.forwardMessage = function(body){
 
 exports.sendSMS = function(msg,phone){
 
-    var url = "http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=hispindia&password=747599411&sendername=HSSPIN&mobileno="+phone+"&message="+msg;
+    var url = "http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=hispindia&password=hisp1234&sendername=HSSPIN&mobileno="+phone+"&message="+msg;
     
     exports.getReqWithoutAuth(url,callback);
 

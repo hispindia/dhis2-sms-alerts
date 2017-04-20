@@ -55,7 +55,7 @@ var constant=require("./CONSTANTS");
 var username = "gitika";
 var pass = "Giti1234";
 var auth = "Basic " + new Buffer(username + ":" + pass).toString("base64");
-var DHIS2_BASE = "http://localhost:8090/dhis";
+var DHIS2_BASE = "http://139.162.61.147/aes";
 
 
 function gotPhoneNumberCallback(eventUID,error,response,body){
