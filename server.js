@@ -102,7 +102,8 @@ function gotPhoneNumberCallback(eventUID,error,response,body){
 	    
 	    var teiName,teiAESID;
 	    
-	    for(var j=0;j<tei.attributes.length;j++)
+            if (tei.attributes){
+            for(var j=0;j<tei.attributes.length;j++)
 	    {
 		
 		var attrbt=tei.attributes[j].attribute;
@@ -118,6 +119,10 @@ function gotPhoneNumberCallback(eventUID,error,response,body){
             }
 	    //--------------------------------------------------------------------------------------------------------------
 	    
+            }
+	    
+            if (!data.dataValues){ return }
+        
 	    for(var k=0;k<data.dataValues.length;k++)
 	    {
 		var id=data.dataValues[k].dataElement;
@@ -327,7 +332,6 @@ function gotPhoneNumberCallback(eventUID,error,response,body){
 app.post('/sendSMS', function(req, res){
     
 
-    
     var eventUID = req.body.event;
     var eventOrgUnit = req.body.orgUnit;
 
